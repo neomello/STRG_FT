@@ -21,6 +21,10 @@ export default function FirebaseLeadForm({ onSuccess }: { onSuccess?: () => void
         ...formData,
         timestamp: serverTimestamp()
       });
+      await addDoc(collection(db, 'aluno'), {
+        ...formData,
+        timestamp: serverTimestamp()
+      });
       setStatus('success');
       setFormData({ nome: '', email: '', whatsapp: '' });
       onSuccess?.();

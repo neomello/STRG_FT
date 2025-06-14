@@ -3,9 +3,8 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
-import FirebaseLeadForm from '@/components/FirebaseLeadForm'
-
-const BOTPRESS_SCRIPT = 'https://cdn.botpress.cloud/webchat/v3.0/inject.js'
+import AuthAlunoForm from '@/components/AuthAlunoForm'
+import BotpressWebchatReact from '@/components/BotpressWebchatReact'
 
 export default function Home() {
   const [showForm, setShowForm] = useState(false)
@@ -16,25 +15,9 @@ export default function Home() {
   // Injetar scripts do Botpress após cadastro
   useEffect(() => {
     if (leadRegistered) {
-      // Script principal do Botpress
-      const script1 = document.createElement('script')
-      script1.src = BOTPRESS_SCRIPT
-      script1.defer = true
-      document.body.appendChild(script1)
-
-      // Script customizado do cliente
-      const clientId = process.env.NEXT_PUBLIC_CLIENTE_ID || 'xxxx'
-      const script2 = document.createElement('script')
-      script2.src = `https://files.bpcontent.cloud/2025/04/21/15/20250421150456-${clientId}.js`
-      script2.defer = true
-      document.body.appendChild(script2)
-
-      return () => {
-        document.body.removeChild(script1)
-        document.body.removeChild(script2)
-      }
+      router.push('/aluno')
     }
-  }, [leadRegistered])
+  }, [leadRegistered, router])
 
   const handleLogin = async () => {
     setIsLoading(true)
@@ -87,12 +70,12 @@ export default function Home() {
 
           {/* Formulário direto na landing page */}
           {!leadRegistered && (
-            <FirebaseLeadForm onSuccess={() => setLeadRegistered(true)} />
+            <AuthAlunoForm onSuccess={() => setLeadRegistered(true)} />
           )}
           {leadRegistered && (
             <div className="flex flex-col items-center justify-center">
               <p className="text-green-400 text-lg font-bold mb-4 text-center">Cadastro realizado com sucesso! Aguarde o atendimento...</p>
-              {/* O chat do Botpress será carregado automaticamente */}
+              <BotpressWebchatReact />
             </div>
           )}
         </motion.div>

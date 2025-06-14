@@ -2,9 +2,10 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['res.cloudinary.com'],
+    unoptimized: true,
+    domains: ['firebasestorage.googleapis.com'],
   },
-  output: 'standalone',
+  output: 'export',
   images: {
     remotePatterns: [
       {
